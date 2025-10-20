@@ -534,6 +534,9 @@ def select_bus_via_candidates(
         if cand["departure_stop_id"] != origin_stop_id:
             continue
         arrival_min = time_to_minutes(cand["arrival_time"])
+        depart_min = time_to_minutes(cand["departure_time"])
+        if arrival_min <= depart_min:
+            continue
         if arrival_min > latest_arrival:
             continue
         if tracker.assign(cand["service_day"], cand["route_id"], cand["trip_index"], headcount):
@@ -582,7 +585,10 @@ def select_trip_with_capacity(
     fallback: Optional[sqlite3.Row] = None
     fallback_arrival: Optional[int] = None
     for trip in trips:
+        depart_min = time_to_minutes(trip["departure_time"])
         arrival_min = time_to_minutes(trip["arrival_time"])
+        if arrival_min <= depart_min:
+            continue
         if min_arrival_min is not None and arrival_min < min_arrival_min:
             continue
         if latest_arrival_min is not None and arrival_min > latest_arrival_min:
