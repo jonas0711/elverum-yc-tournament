@@ -32,7 +32,7 @@ LUNCH_WINDOW_MIN = 13 * 60  # 13:00
 LUNCH_WINDOW_MAX = 17 * 60 + 30  # 17:30
 CONCERT_BUFFER_MIN = 20  # ≥20 minutter før koncertstart
 CONCERT_SOFT_EARLIEST = 17 * 60
-BUS_CAPACITY_LIMIT = 120
+BUS_CAPACITY_LIMIT = 999
 
 HALL_NAME_ALIASES = {
     "Herneshallen - Kortbane": "Herneshallen",
@@ -750,18 +750,20 @@ def plan_game_travel(
     if manual_arrival <= manual_start:
         manual_arrival = max(manual_start + 20, start_min - 30)
     origin_for_charter = attempt_origin or school_stop_id
-    charter_segment = build_charter_segment(
+    if origin_for_charter == hall_stop_id:
+        return segments, hall_stop_id, manual_arrival
+    manual_segment = build_manual_segment(
         service_day,
-        origin_for_charter,
-        hall_stop_id,
         manual_start,
         manual_arrival,
-        f"Charter transport to {game['hall_name']} (alias {alias['alias_id']})",
-        "schedule_game",
-        game["game_id"],
+        f"Manual transport to {game['hall_name']} (alias {alias['alias_id']})",
     )
-    charter_segment["buffer_minutes"] = start_min - manual_arrival
-    return [charter_segment], hall_stop_id, manual_arrival
+    manual_segment["origin_stop_id"] = origin_for_charter
+    manual_segment["destination_stop_id"] = hall_stop_id
+    manual_segment["ref_type"] = "schedule_game"
+    manual_segment["ref_id"] = game["game_id"]
+    manual_segment["buffer_minutes"] = start_min - manual_arrival
+    return [manual_segment], hall_stop_id, manual_arrival
 
 
 def plan_lunch_transport(
@@ -774,7 +776,7 @@ def plan_lunch_transport(
     lunch_event: sqlite3.Row,
     min_arrival_min: int,
     max_arrival_min: int,
-    allow_charter: bool = True,
+    allow_charter: bool = False,
 ) -> Tuple[List[Dict[str, Optional[object]]], Optional[int]]:
     if origin_stop_id is None:
         return [], None
@@ -930,18 +932,16 @@ def schedule_lunch_between_games(
             if arrival_target <= meal_end:
                 release_bus_segments(tracker, alias=None, segments=travel_to_lunch, headcount=headcount)
                 return [], current_stop_id, current_time_min, None
-            charter_to_next = build_charter_segment(
+            manual_return = build_manual_segment(
                 next_game["service_day_code"],
-                lookup.lunch_event["anchor_stop_id"],
-                next_hall_stop,
                 meal_end,
                 arrival_target,
-                f"Charter to {next_game['hall_name']} (post-lunch manual review)",
-                "schedule_game",
-                next_game["game_id"],
+                f"Manual transport to {next_game['hall_name']} after lunch",
             )
+            manual_return["origin_stop_id"] = lookup.lunch_event["anchor_stop_id"]
+            manual_return["destination_stop_id"] = next_hall_stop
             arrival_next = arrival_target
-            bus_segments_to_next = [charter_to_next]
+            bus_segments_to_next = [manual_return]
     else:
         bus_segments_to_next = [bus_to_next]
 
@@ -1022,7 +1022,6 @@ def insert_manual_lunch(
         gap_end = min(next_start, LUNCH_WINDOW_MAX)
         if gap_end - gap_start >= (LUNCH_DURATION + 2 * LUNCH_CHARTER_TRAVEL):
             next_origin = seg.get("origin_stop_id") or current_location
-            new_segments = []
             depart_for_lunch = gap_start
             arrive_lunch = depart_for_lunch + LUNCH_CHARTER_TRAVEL
             meal_start = max(arrive_lunch, LUNCH_WINDOW_MIN)
@@ -1033,31 +1032,32 @@ def insert_manual_lunch(
                 continue
             return_depart = meal_end
             arrive_back = return_depart + LUNCH_CHARTER_TRAVEL
-            charter_to_lunch = build_charter_segment(
+
+            note_to_lunch = build_manual_segment(
                 "sat",
-                current_location,
-                lunch_stop,
                 depart_for_lunch,
                 arrive_lunch,
-                f"Charter to lunch ({lookup.lunch_event['stop_display_name']}) (manual fill)",
-                "logistics_event",
-                lookup.lunch_event["event_id"],
+                f"Manual transport to lunch ({lookup.lunch_event['stop_display_name']})",
             )
-            charter_to_lunch["buffer_minutes"] = None
             meal_segment = build_meal_segment(meal_start, meal_end, lookup.lunch_event)
-            charter_back = build_charter_segment(
+            note_return = build_manual_segment(
                 "sat",
-                lunch_stop,
-                next_origin,
                 return_depart,
                 arrive_back,
-                "Charter return from lunch (manual fill)",
-                "logistics_event",
-                lookup.lunch_event["event_id"],
+                "Manual return from lunch",
             )
-            charter_back["buffer_minutes"] = None
-            new_segments.extend([charter_to_lunch, meal_segment, charter_back])
-            segments.extend(new_segments)
+            note_to_lunch["origin_stop_id"] = current_location
+            note_to_lunch["destination_stop_id"] = lunch_stop
+            note_return["origin_stop_id"] = lunch_stop
+            note_return["destination_stop_id"] = next_origin
+            note_to_lunch["ref_type"] = "logistics_event"
+            note_to_lunch["ref_id"] = lookup.lunch_event["event_id"]
+            note_return["ref_type"] = "logistics_event"
+            note_return["ref_id"] = lookup.lunch_event["event_id"]
+
+            segments.extend([note_to_lunch, meal_segment, note_return])
+            current_location = next_origin
+            current_time = arrive_back
             return True
         seg_end = time_str_to_min(seg.get("end_time"))
         current_time = max(current_time, seg_end)
@@ -1139,19 +1139,44 @@ def schedule_concert_block(
                 arrival = arrival_candidate
                 break
         if bus_to_concert is None:
-            charter = build_charter_segment(
+            multi_segments, multi_arrival = find_multi_leg_trip(
+                conn,
+                tracker,
                 "sat",
                 origin_stop,
                 concert["anchor_stop_id"],
                 earliest_depart,
-                concert_start_min - CONCERT_BUFFER_MIN,
-                f"Charter transport to concert ({concert['stop_display_name']})",
+                max_arrival,
+                headcount,
+                f"Bus to concert ({concert['stop_display_name']})",
                 "logistics_event",
                 concert["event_id"],
             )
-            segments.append(charter)
-            current_stop_id = concert["anchor_stop_id"]
-            current_time_min = concert_start_min - CONCERT_BUFFER_MIN
+            if multi_segments is not None and multi_arrival is not None:
+                for seg in multi_segments:
+                    if seg.get("segment_type") == "bus":
+                        seg["buffer_minutes"] = None
+                segments.extend(multi_segments)
+                current_stop_id = concert["anchor_stop_id"]
+                current_time_min = multi_arrival
+            else:
+                manual_start = max(earliest_depart, current_time_min or 0)
+                manual_end = concert_start_min - CONCERT_BUFFER_MIN
+                if manual_end <= manual_start:
+                    manual_end = manual_start
+                manual_note = build_manual_segment(
+                    "sat",
+                    manual_start,
+                    manual_end,
+                    f"Manual transport to concert ({concert['stop_display_name']})",
+                )
+                manual_note["origin_stop_id"] = origin_stop
+                manual_note["destination_stop_id"] = concert["anchor_stop_id"]
+                manual_note["ref_type"] = "logistics_event"
+                manual_note["ref_id"] = concert["event_id"]
+                segments.append(manual_note)
+                current_stop_id = concert["anchor_stop_id"]
+                current_time_min = manual_end
         else:
             bus_to_concert["buffer_minutes"] = None
             segments.append(bus_to_concert)

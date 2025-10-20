@@ -159,6 +159,18 @@ def test_all_squads_have_saturday_lunch():
         assert window_violations == 0, "Lunch segments must remain inside the 13:00–17:30 window"
 
 
+def test_bus_segments_have_routes():
+    with get_connection() as conn:
+        missing_routes = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM team_itinerary_segments
+            WHERE segment_type = 'bus' AND route_id IS NULL
+            """
+        ).fetchone()[0]
+        assert missing_routes == 0, "All bus segments should map to official routes"
+
+
 def test_concert_segments_exist():
     with get_connection() as conn:
         count = conn.execute(
