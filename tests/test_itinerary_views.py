@@ -134,6 +134,31 @@ def test_bus_segments_travel_time_consistent():
         assert violations == 0, "Bus segments must have departure before arrival and positive travel time"
 
 
+def test_all_squads_have_saturday_lunch():
+    with get_connection() as conn:
+        total_aliases = conn.execute(
+            "SELECT COUNT(*) FROM vw_team_alignment"
+        ).fetchone()[0]
+        lunch_aliases = conn.execute(
+            """
+            SELECT COUNT(DISTINCT alias_id)
+            FROM team_itinerary_segments
+            WHERE segment_type = 'meal'
+              AND service_day = 'sat'
+            """
+        ).fetchone()[0]
+        assert lunch_aliases == total_aliases, "Every squad must receive a Saturday lunch segment"
+        window_violations = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM team_itinerary_segments
+            WHERE segment_type = 'meal'
+              AND (start_time < '13:00' OR end_time > '17:30')
+            """
+        ).fetchone()[0]
+        assert window_violations == 0, "Lunch segments must remain inside the 13:00–17:30 window"
+
+
 def test_concert_segments_exist():
     with get_connection() as conn:
         count = conn.execute(

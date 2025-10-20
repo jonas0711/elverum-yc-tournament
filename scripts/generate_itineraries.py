@@ -25,6 +25,9 @@ DB_PATH = ROOT / "data" / "build" / "event_planner.db"
 
 MINUTES_PER_DAY = 24 * 60
 LUNCH_DURATION = 45
+LUNCH_TRAVEL_PADDING = 30
+LUNCH_RETURN_PADDING = 15
+LUNCH_CHARTER_TRAVEL = 15
 LUNCH_WINDOW_MIN = 13 * 60  # 13:00
 LUNCH_WINDOW_MAX = 17 * 60 + 30  # 17:30
 CONCERT_BUFFER_MIN = 20  # ≥20 minutter før koncertstart
@@ -761,6 +764,82 @@ def plan_game_travel(
     return [charter_segment], hall_stop_id, manual_arrival
 
 
+def plan_lunch_transport(
+    conn: sqlite3.Connection,
+    tracker: BusLoadTracker,
+    service_day: str,
+    origin_stop_id: Optional[int],
+    earliest_depart_min: int,
+    headcount: int,
+    lunch_event: sqlite3.Row,
+    min_arrival_min: int,
+    max_arrival_min: int,
+    allow_charter: bool = True,
+) -> Tuple[List[Dict[str, Optional[object]]], Optional[int]]:
+    if origin_stop_id is None:
+        return [], None
+    note = f"Bus to lunch ({lunch_event['stop_display_name']})"
+    direct_segment, arrival, _ = select_trip_with_capacity(
+        conn,
+        tracker,
+        service_day,
+        origin_stop_id,
+        lunch_event["anchor_stop_id"],
+        earliest_depart_min,
+        headcount,
+        note,
+        "logistics_event",
+        lunch_event["event_id"],
+        latest_arrival_min=max_arrival_min,
+        min_arrival_min=min_arrival_min,
+        allow_force=False,
+    )
+    if direct_segment is not None and arrival is not None:
+        direct_segment["buffer_minutes"] = None
+        return [direct_segment], arrival
+
+    multi_segments, multi_arrival = find_multi_leg_trip(
+        conn,
+        tracker,
+        service_day,
+        origin_stop_id,
+        lunch_event["anchor_stop_id"],
+        earliest_depart_min,
+        max_arrival_min,
+        headcount,
+        note,
+        "logistics_event",
+        lunch_event["event_id"],
+    )
+    if multi_segments is not None and multi_arrival is not None and multi_arrival <= max_arrival_min:
+        for seg in multi_segments:
+            if seg.get("segment_type") == "bus":
+                seg["buffer_minutes"] = None
+        return multi_segments, multi_arrival
+
+    if allow_charter:
+        arrival_target = max(min_arrival_min, earliest_depart_min + 20)
+        arrival_target = min(max_arrival_min, arrival_target)
+        if arrival_target <= earliest_depart_min:
+            arrival_target = min(max_arrival_min, earliest_depart_min + 15)
+        if arrival_target <= earliest_depart_min or arrival_target < min_arrival_min:
+            return [], None
+        charter = build_charter_segment(
+            service_day,
+            origin_stop_id,
+            lunch_event["anchor_stop_id"],
+            earliest_depart_min,
+            arrival_target,
+            f"Charter to lunch ({lunch_event['stop_display_name']}) (manual review)",
+            "logistics_event",
+            lunch_event["event_id"],
+        )
+        charter["buffer_minutes"] = None
+        return [charter], arrival_target
+
+    return [], None
+
+
 def schedule_lunch_between_games(
     conn: sqlite3.Connection,
     tracker: BusLoadTracker,
@@ -775,42 +854,39 @@ def schedule_lunch_between_games(
     if next_game["service_day_code"] != "sat":
         return [], current_stop_id, current_time_min, None
     next_start_min = time_to_minutes(next_game["start_time"])
-    if next_start_min - current_time_min < (LUNCH_DURATION + 60):
+    if next_start_min - current_time_min < (LUNCH_DURATION + LUNCH_TRAVEL_PADDING):
         return [], current_stop_id, current_time_min, None
     if current_time_min > LUNCH_WINDOW_MAX:
         return [], current_stop_id, current_time_min, None
 
     headcount = int(alias["headcount"] or 0)
-    lunch_stop = lookup.lunch_event["anchor_stop_id"]
     min_arrival = max(LUNCH_WINDOW_MIN, current_time_min)
     max_arrival = min(LUNCH_WINDOW_MAX, next_start_min - 40)
     if min_arrival >= max_arrival:
         return [], current_stop_id, current_time_min, None
 
-    bus_to_lunch, arrival_lunch, forced1 = select_trip_with_capacity(
+    travel_to_lunch, arrival_lunch = plan_lunch_transport(
         conn,
         tracker,
         "sat",
         current_stop_id,
-        lunch_stop,
         current_time_min,
         headcount,
-        f"Bus to lunch ({lookup.lunch_event['stop_display_name']})",
-        "logistics_event",
-        lookup.lunch_event["event_id"],
-        latest_arrival_min=max_arrival,
-        min_arrival_min=min_arrival,
-        allow_force=False,
+        lookup.lunch_event,
+        min_arrival,
+        max_arrival,
     )
-    if bus_to_lunch is None or arrival_lunch is None:
+    if not travel_to_lunch or arrival_lunch is None:
         return [], current_stop_id, current_time_min, None
 
-    bus_to_lunch["buffer_minutes"] = None
-
     meal_start = max(arrival_lunch, LUNCH_WINDOW_MIN)
-    meal_end = min(meal_start + LUNCH_DURATION, max_arrival)
+    latest_meal_end = max_arrival - LUNCH_RETURN_PADDING
+    if latest_meal_end <= meal_start:
+        release_bus_segments(tracker, alias=None, segments=travel_to_lunch, headcount=headcount)
+        return [], current_stop_id, current_time_min, None
+    meal_end = min(meal_start + LUNCH_DURATION, latest_meal_end)
     if meal_end - meal_start < 15:
-        tracker.release("sat", bus_to_lunch["route_id"], bus_to_lunch["trip_index"], headcount)
+        release_bus_segments(tracker, alias=None, segments=travel_to_lunch, headcount=headcount)
         return [], current_stop_id, current_time_min, None
 
     meal_segment = build_meal_segment(meal_start, meal_end, lookup.lunch_event)
@@ -820,7 +896,7 @@ def schedule_lunch_between_games(
         conn,
         tracker,
         next_game["service_day_code"],
-        lunch_stop,
+        lookup.lunch_event["anchor_stop_id"],
         next_hall_stop,
         meal_end,
         headcount,
@@ -832,18 +908,54 @@ def schedule_lunch_between_games(
         allow_force=False,
     )
     if bus_to_next is None or arrival_next is None:
-        tracker.release("sat", bus_to_lunch["route_id"], bus_to_lunch["trip_index"], headcount)
-        return [], current_stop_id, current_time_min, None
+        multi_to_next, multi_arrival = find_multi_leg_trip(
+            conn,
+            tracker,
+            next_game["service_day_code"],
+            lookup.lunch_event["anchor_stop_id"],
+            next_hall_stop,
+            meal_end,
+            time_to_minutes(next_game["start_time"]) - 40,
+            headcount,
+            f"Bus to {next_game['hall_name']} (post-lunch)",
+            "schedule_game",
+            next_game["game_id"],
+            target_arrival_min=time_to_minutes(next_game["start_time"]),
+        )
+        if multi_to_next is not None and multi_arrival is not None:
+            arrival_next = multi_arrival
+            bus_segments_to_next = multi_to_next
+        else:
+            arrival_target = time_to_minutes(next_game["start_time"]) - 40
+            if arrival_target <= meal_end:
+                release_bus_segments(tracker, alias=None, segments=travel_to_lunch, headcount=headcount)
+                return [], current_stop_id, current_time_min, None
+            charter_to_next = build_charter_segment(
+                next_game["service_day_code"],
+                lookup.lunch_event["anchor_stop_id"],
+                next_hall_stop,
+                meal_end,
+                arrival_target,
+                f"Charter to {next_game['hall_name']} (post-lunch manual review)",
+                "schedule_game",
+                next_game["game_id"],
+            )
+            arrival_next = arrival_target
+            bus_segments_to_next = [charter_to_next]
+    else:
+        bus_segments_to_next = [bus_to_next]
 
     buffer_to_next_game = time_to_minutes(next_game["start_time"]) - arrival_next
     if buffer_to_next_game < 40:
-        tracker.release("sat", bus_to_lunch["route_id"], bus_to_lunch["trip_index"], headcount)
-        tracker.release(bus_to_next.get("service_day"), bus_to_next["route_id"], bus_to_next["trip_index"], headcount)
+        release_bus_segments(tracker, alias=None, segments=travel_to_lunch, headcount=headcount)
+        release_bus_segments(tracker, alias=None, segments=bus_segments_to_next, headcount=headcount)
         return [], current_stop_id, current_time_min, None
-    bus_to_next["buffer_minutes"] = buffer_to_next_game
+    for seg in bus_segments_to_next:
+        if seg.get("segment_type") == "bus":
+            seg["buffer_minutes"] = buffer_to_next_game
 
     return (
-        [bus_to_lunch, meal_segment, bus_to_next],
+        [*travel_to_lunch, meal_segment, *bus_segments_to_next],
         next_hall_stop,
         arrival_next,
         next_game["game_id"],
@@ -866,30 +978,93 @@ def schedule_lunch_after_day(
         return [], current_stop_id, current_time_min
 
     headcount = int(alias["headcount"] or 0)
-    bus_to_lunch, arrival, _ = select_trip_with_capacity(
+    travel_to_lunch, arrival = plan_lunch_transport(
         conn,
         tracker,
         "sat",
         current_stop_id,
-        lookup.lunch_event["anchor_stop_id"],
         current_time_min,
         headcount,
-        f"Bus to lunch ({lookup.lunch_event['stop_display_name']})",
-        "logistics_event",
-        lookup.lunch_event["event_id"],
-        latest_arrival_min=LUNCH_WINDOW_MAX,
-        min_arrival_min=LUNCH_WINDOW_MIN,
-        allow_force=False,
+        lookup.lunch_event,
+        LUNCH_WINDOW_MIN,
+        LUNCH_WINDOW_MAX,
     )
-    if bus_to_lunch is None or arrival is None:
+    if not travel_to_lunch or arrival is None:
         return [], current_stop_id, current_time_min
-
-    bus_to_lunch["buffer_minutes"] = None
 
     meal_start = max(arrival, LUNCH_WINDOW_MIN)
     meal_end = min(meal_start + LUNCH_DURATION, LUNCH_WINDOW_MAX)
     meal_segment = build_meal_segment(meal_start, meal_end, lookup.lunch_event)
-    return [bus_to_lunch, meal_segment], lookup.lunch_event["anchor_stop_id"], meal_end
+    return [*travel_to_lunch, meal_segment], lookup.lunch_event["anchor_stop_id"], meal_end
+
+
+def insert_manual_lunch(
+    segments: List[Dict[str, Optional[object]]],
+    alias: sqlite3.Row,
+    lookup: LookupData,
+) -> bool:
+    if lookup.lunch_event is None:
+        return False
+    lunch_stop = lookup.lunch_event["anchor_stop_id"]
+    school_stop = lookup.school_stop_map.get(alias["school_id"])
+    sat_segments = [seg for seg in segments if seg.get("service_day") == "sat"]
+    if not sat_segments:
+        return False
+    sat_segments_sorted = sorted(sat_segments, key=lambda s: s.get("start_time", "00:00"))
+    def time_str_to_min(value: Optional[str]) -> int:
+        return time_to_minutes(value) if value else 0
+
+    current_location = school_stop
+    current_time = LUNCH_WINDOW_MIN
+    for seg in sat_segments_sorted:
+        next_start = time_str_to_min(seg.get("start_time"))
+        gap_start = max(current_time, LUNCH_WINDOW_MIN)
+        gap_end = min(next_start, LUNCH_WINDOW_MAX)
+        if gap_end - gap_start >= (LUNCH_DURATION + 2 * LUNCH_CHARTER_TRAVEL):
+            next_origin = seg.get("origin_stop_id") or current_location
+            new_segments = []
+            depart_for_lunch = gap_start
+            arrive_lunch = depart_for_lunch + LUNCH_CHARTER_TRAVEL
+            meal_start = max(arrive_lunch, LUNCH_WINDOW_MIN)
+            meal_end = meal_start + LUNCH_DURATION
+            if meal_end > gap_end - LUNCH_CHARTER_TRAVEL:
+                meal_end = gap_end - LUNCH_CHARTER_TRAVEL
+            if meal_end - meal_start < 15:
+                continue
+            return_depart = meal_end
+            arrive_back = return_depart + LUNCH_CHARTER_TRAVEL
+            charter_to_lunch = build_charter_segment(
+                "sat",
+                current_location,
+                lunch_stop,
+                depart_for_lunch,
+                arrive_lunch,
+                f"Charter to lunch ({lookup.lunch_event['stop_display_name']}) (manual fill)",
+                "logistics_event",
+                lookup.lunch_event["event_id"],
+            )
+            charter_to_lunch["buffer_minutes"] = None
+            meal_segment = build_meal_segment(meal_start, meal_end, lookup.lunch_event)
+            charter_back = build_charter_segment(
+                "sat",
+                lunch_stop,
+                next_origin,
+                return_depart,
+                arrive_back,
+                "Charter return from lunch (manual fill)",
+                "logistics_event",
+                lookup.lunch_event["event_id"],
+            )
+            charter_back["buffer_minutes"] = None
+            new_segments.extend([charter_to_lunch, meal_segment, charter_back])
+            segments.extend(new_segments)
+            return True
+        seg_end = time_str_to_min(seg.get("end_time"))
+        current_time = max(current_time, seg_end)
+        dest_stop = seg.get("destination_stop_id")
+        if dest_stop is not None:
+            current_location = dest_stop
+    return False
 
 
 def schedule_concert_block(
@@ -1130,6 +1305,13 @@ def generate_segments_for_alias(
                 conn, tracker, alias, lookup, service_day, current_stop_id, current_time_min
             )
             segments.extend(return_segments)
+
+    if lookup.lunch_event is not None:
+        has_saturday_lunch = any(
+            seg.get("service_day") == "sat" and seg.get("segment_type") == "meal" for seg in segments
+        )
+        if not has_saturday_lunch:
+            insert_manual_lunch(segments, alias, lookup)
 
     return segments
 
