@@ -1,0 +1,472 @@
+Rute 1
+hvert 50. minutt per stoppested
+kun lør
+kun lør
+kun lør
+Ydalir 
+07:00
+07:50
+08:40
+09:30
+10:20
+11:10
+12:00
+12:50
+13:40
+14:30
+15:20
+16:10
+17:00
+17:50
+18:40
+EUS
+07:10
+08:00
+08:50
+09:40
+10:30
+11:20
+12:10
+13:00
+13:50
+14:40
+15:30
+16:20
+17:10
+18:00
+18:50
+Terningen Arena
+07:20
+08:10
+09:00
+09:50
+10:40
+11:30
+12:20
+13:10
+14:00
+14:50
+15:40
+16:30
+17:20
+18:10
+19:00
+ELVIS
+07:30
+08:20
+09:10
+10:00
+10:50
+11:40
+12:30
+13:20
+14:10
+15:00
+15:50
+16:40
+17:30
+18:20
+19:10
+Frydenlund
+07:35
+08:25
+09:15
+10:05
+10:55
+11:45
+12:35
+13:25
+14:15
+15:05
+15:55
+16:45
+17:35
+18:25
+19:15
+Thon Central (lørdag)
+13:25
+14:15
+15:05
+15:55
+16:45
+17:35
+Søndre Elverum
+07:50
+08:40
+09:30
+10:20
+11:10
+12:00
+12:50
+13:40
+14:30
+15:20
+16:10
+17:00
+17:50
+18:40
+19:30
+ELVIS
+08:00
+08:50
+09:40
+10:30
+11:20
+12:10
+13:00
+13:50
+14:40
+15:30
+16:20
+17:10
+18:00
+18:50
+19:40
+Frydenlund 
+08:05
+08:55
+09:45
+10:35
+11:25
+12:15
+13:05
+13:55
+14:45
+15:35
+16:25
+17:15
+18:05
+18:55
+19:45
+Thon Central (lørdag)
+13:05
+13:55
+14:45
+15:35
+16:25
+17:15
+18:05
+EUS
+08:15
+09:05
+09:55
+10:45
+11:35
+12:25
+13:15
+14:05
+14:55
+15:45
+16:35
+17:25
+18:15
+19:05
+19:55
+Ydalir
+08:20
+09:10
+10:00
+10:50
+11:40
+12:30
+13:20
+14:10
+15:00
+15:50
+16:40
+17:30
+18:20
+19:10
+20:00
+Herneshallen
+08:30
+09:20
+10:10
+11:00
+11:50
+12:40
+13:30
+14:20
+15:10
+16:00
+16:50
+17:40
+18:30
+19:20
+20:10
+Bussene går shuttle fra skolene til konserten i Terningen Arena fra og med kl. 19. Retur fra Terningen Arena til alle skoler fra og med kl. 21.
+Fremvis gyldig deltakerkort eller busskort ved påstigning
+*Elverumshallen har ikke eget stopp, da hallen ligger rett ved Elverum Ungdomsskole (EUS)
+Busstopp:
+ELVIS:
+ Busstopp ved skolen ca 100m fra hovedinngang til hallen
+Frydenlund:
+ Stopp i Frydenlundvegen like ved skolen
+EUS:
+ Stopp rett ved skolen. Fra stoppet er det omtrent 100 meter å gå til Elverumshallen
+Ydalir: 
+Ydalir holdeplass ved Kiwi
+Søndre Elverum:
+ Stopp rett ved hallen 
+Herneshallen:
+ Stopp rett ved hallen
+Terningen Arena:
+ Stopp rett ved hallen
+Rute 2
+hver halvtime per stoppested
+siste avg søn
+siste avg lør
+EUS
+07:00
+07:30
+08:00
+08:30
+:00
+:30
+17:00
+19:00
+ELVIS
+07:10
+07:40
+08:10
+08:40
+:10
+:40
+Frydenlund
+07:15
+07:45
+08:15
+08:45
+:15
+:45
+Thon Central (lørdag)
+Terningen Arena
+07:25
+07:55
+08:25
+08:55
+:25
+:55
+Ydalir
+07:30
+08:00
+08:30
+09:00
+:30
+:00
+Herneshallen
+07:40
+08:10
+08:40
+09:10
+:40
+:10
+Ydalir
+07:50
+08:20
+08:50
+09:20
+:50
+:20
+Bussene går shuttle fra skolene til konserten i Terningen Arena fra og med kl. 19. Retur fra Terningen Arena til alle skoler fra og med kl. 21.
+Fremvis gyldig deltakerkort eller busskort ved påstigning
+*Elverumshallen har ikke eget stopp, da hallen ligger rett ved Elverum Ungdomsskole (EUS)
+Busstopp:
+ELVIS:
+ Busstopp ved skolen ca 100m fra hovedinngang til hallen
+Frydenlund:
+ Stopp i Frydenlundvegen like ved skolen
+EUS:
+ Stopp rett ved skolen. Fra stoppet er det omtrent 100 meter å gå til Elverumshallen
+Ydalir: 
+Ydalir holdeplass ved Kiwi
+Søndre Elverum:
+ Stopp rett ved hallen 
+Herneshallen:
+ Stopp rett ved hallen
+Terningen Arena:
+ Stopp rett ved hallen
+Rute 3
+hvert 40. minutt per stoppested
+kun lør
+kun lør
+kun lør
+ELVIS
+07:00
+07:40
+08:20
+09:00
+09:40
+10:20
+11:00
+11:40
+12:20
+13:00
+13:40
+14:20
+15:00
+15:40
+16:20
+17:00
+17:40
+18:20
+Frydenlund
+07:05
+07:45
+08:25
+09:05
+09:45
+10:25
+11:05
+11:45
+12:25
+13:05
+13:45
+14:25
+15:05
+15:45
+16:25
+17:05
+17:45
+18:25
+Thon Central (lørdag)
+13:05
+13:45
+14:25
+15:05
+15:45
+16:25
+17:05
+17:45
+Søndre Elv.
+07:20
+08:00
+08:40
+09:20
+10:00
+10:40
+11:20
+12:00
+12:40
+13:20
+14:00
+14:40
+15:20
+16:00
+16:40
+17:20
+18:00
+18:40
+EUS*
+07:35
+08:15
+08:55
+09:35
+10:15
+10:55
+11:35
+12:15
+12:55
+13:35
+14:15
+14:55
+15:35
+16:15
+16:55
+17:35
+18:15
+18:55
+Ydalir
+07:45
+08:25
+09:05
+09:45
+10:25
+11:05
+11:45
+12:25
+13:05
+13:45
+14:25
+15:05
+15:45
+16:25
+17:05
+17:45
+18:25
+19:05
+Herneshallen
+07:55
+08:35
+09:15
+09:55
+10:35
+11:15
+11:55
+12:35
+13:15
+13:55
+14:35
+15:15
+15:55
+16:35
+17:15
+17:55
+18:35
+19:15
+Ydalir
+08:05
+08:45
+09:25
+10:05
+10:45
+11:25
+12:05
+12:45
+13:25
+14:05
+14:45
+15:25
+16:05
+16:45
+17:25
+18:05
+18:45
+19:25
+Terningen A.
+08:10
+08:55
+09:30
+10:10
+10:55
+11:30
+12:10
+12:55
+13:30
+14:10
+14:55
+15:30
+16:10
+16:55
+17:30
+18:10
+18:55
+19:30
+Bussene går shuttle fra skolene til konserten i Terningen Arena fra og med kl. 19. Retur fra Terningen Arena til alle skoler fra og med kl. 21.
+Fremvis gyldig deltakerkort eller busskort ved påstigning
+*Elverumshallen har ikke eget stopp, da hallen ligger rett ved Elverum Ungdomsskole (EUS)
+Busstopp:
+ELVIS:
+ Busstopp ved skolen ca 100m fra hovedinngang til hallen
+Frydenlund:
+ Stopp i Frydenlundvegen like ved skolen
+EUS:
+ Stopp rett ved skolen. Fra stoppet er det omtrent 100 meter å gå til Elverumshallen
+Ydalir: 
+Ydalir holdeplass ved Kiwi
+Søndre Elverum:
+ Stopp rett ved hallen 
+Herneshallen:
+ Stopp rett ved hallen
+Terningen Arena:
+ Stopp rett ved hallen

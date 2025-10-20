@@ -1,0 +1,802 @@
+[
+  {
+    "alias_id": 1,
+    "squad_index": 1,
+    "lodging_club": "Aurskog Finstadbru",
+    "raw_label": "J2008",
+    "division_key": "J2008",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B102",
+    "schedule_team_name": "AFSK"
+  },
+  {
+    "alias_id": 2,
+    "squad_index": 1,
+    "lodging_club": "Bj\u00f8rkelangen",
+    "raw_label": "J2013",
+    "division_key": "J2013",
+    "school_name": "FRYDENLUND",
+    "room_codes": "C126",
+    "schedule_team_name": "Bj\u00f8rkelangen/H\u00f8land"
+  },
+  {
+    "alias_id": 3,
+    "squad_index": 1,
+    "lodging_club": "Borgen IL",
+    "raw_label": "J2011",
+    "division_key": "J2011",
+    "school_name": "FRYDENLUND",
+    "room_codes": "D123",
+    "schedule_team_name": "Borgen"
+  },
+  {
+    "alias_id": 4,
+    "squad_index": 1,
+    "lodging_club": "Dr\u00f8bak/Frogn",
+    "raw_label": "G2013",
+    "division_key": "G2013",
+    "school_name": "FRYDENLUND",
+    "room_codes": "C123",
+    "schedule_team_name": "Dr\u00f8bak/Frogn Bl\u00e5"
+  },
+  {
+    "alias_id": 5,
+    "squad_index": 1,
+    "lodging_club": "Furnes",
+    "raw_label": "G2014,2 lag",
+    "division_key": "G2014",
+    "school_name": "FRYDENLUND",
+    "room_codes": "C125",
+    "schedule_team_name": "Furnes"
+  },
+  {
+    "alias_id": 6,
+    "squad_index": 2,
+    "lodging_club": "Furnes",
+    "raw_label": "G2014,2 lag",
+    "division_key": "G2014",
+    "school_name": "FRYDENLUND",
+    "room_codes": "C125",
+    "schedule_team_name": "Furnes 2"
+  },
+  {
+    "alias_id": 7,
+    "squad_index": 1,
+    "lodging_club": "Furnes",
+    "raw_label": "J2015,2 lag",
+    "division_key": "J2015",
+    "school_name": "FRYDENLUND",
+    "room_codes": "C128",
+    "schedule_team_name": "Furnes"
+  },
+  {
+    "alias_id": 8,
+    "squad_index": 2,
+    "lodging_club": "Furnes",
+    "raw_label": "J2015,2 lag",
+    "division_key": "J2015",
+    "school_name": "FRYDENLUND",
+    "room_codes": "C128",
+    "schedule_team_name": "Furnes 2"
+  },
+  {
+    "alias_id": 9,
+    "squad_index": 1,
+    "lodging_club": "Gj\u00f8vik HK",
+    "raw_label": "G2012",
+    "division_key": "G2012",
+    "school_name": "FRYDENLUND",
+    "room_codes": "B117",
+    "schedule_team_name": "Gj\u00f8vik HK"
+  },
+  {
+    "alias_id": 10,
+    "squad_index": 1,
+    "lodging_club": "Gj\u00f8vik HK",
+    "raw_label": "G2012",
+    "division_key": "G2012",
+    "school_name": "FRYDENLUND",
+    "room_codes": "B118",
+    "schedule_team_name": "Gj\u00f8vik HK"
+  },
+  {
+    "alias_id": 11,
+    "squad_index": 1,
+    "lodging_club": "Gj\u00f8vik HK",
+    "raw_label": "J2013",
+    "division_key": "J2013",
+    "school_name": "FRYDENLUND",
+    "room_codes": "B120,B121",
+    "schedule_team_name": "Gj\u00f8vik HK"
+  },
+  {
+    "alias_id": 12,
+    "squad_index": 1,
+    "lodging_club": "HK Vestre Toten",
+    "raw_label": "J2013",
+    "division_key": "J2013",
+    "school_name": "ELVIS",
+    "room_codes": "C110",
+    "schedule_team_name": "HK Vestre Toten 2"
+  },
+  {
+    "alias_id": 13,
+    "squad_index": 1,
+    "lodging_club": "HK Vestre Toten",
+    "raw_label": "J2014,2 lag",
+    "division_key": "J2014",
+    "school_name": "ELVIS",
+    "room_codes": "C111",
+    "schedule_team_name": "HK Vestre Toten"
+  },
+  {
+    "alias_id": 14,
+    "squad_index": 2,
+    "lodging_club": "HK Vestre Toten",
+    "raw_label": "J2014,2 lag",
+    "division_key": "J2014",
+    "school_name": "ELVIS",
+    "room_codes": "C111",
+    "schedule_team_name": "HK Vestre Toten 2"
+  },
+  {
+    "alias_id": 15,
+    "squad_index": 1,
+    "lodging_club": "HK Vestre Toten",
+    "raw_label": "J2015",
+    "division_key": "J2015",
+    "school_name": "ELVIS",
+    "room_codes": "C110",
+    "schedule_team_name": "HK Vestre Toten"
+  },
+  {
+    "alias_id": 16,
+    "squad_index": 1,
+    "lodging_club": "Hasle/L\u00f8ren",
+    "raw_label": "G2012",
+    "division_key": "G2012",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B104",
+    "schedule_team_name": "Hasle-L\u00f8ren R\u00f8d"
+  },
+  {
+    "alias_id": 17,
+    "squad_index": 1,
+    "lodging_club": "Hasle/L\u00f8ren",
+    "raw_label": "G2013",
+    "division_key": "G2013",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B105",
+    "schedule_team_name": "Hasle-L\u00f8ren Bl\u00e5"
+  },
+  {
+    "alias_id": 18,
+    "squad_index": 1,
+    "lodging_club": "Hasle/L\u00f8ren",
+    "raw_label": "G2014",
+    "division_key": "G2014",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B106",
+    "schedule_team_name": "Hasle-L\u00f8ren Bl\u00e5"
+  },
+  {
+    "alias_id": 19,
+    "squad_index": 1,
+    "lodging_club": "Hasle/L\u00f8ren",
+    "raw_label": "G2015",
+    "division_key": "G2015",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B205,B206",
+    "schedule_team_name": "Hasle-L\u00f8ren Gul"
+  },
+  {
+    "alias_id": 20,
+    "squad_index": 1,
+    "lodging_club": "Hasle/L\u00f8ren",
+    "raw_label": "J2011",
+    "division_key": "J2011",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B203,B204",
+    "schedule_team_name": "Hasle-L\u00f8ren"
+  },
+  {
+    "alias_id": 21,
+    "squad_index": 1,
+    "lodging_club": "Hasle/L\u00f8ren",
+    "raw_label": "J2012",
+    "division_key": "J2012",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "E106,E108,E206",
+    "schedule_team_name": "Hasle-L\u00f8ren Bl\u00e5"
+  },
+  {
+    "alias_id": 22,
+    "squad_index": 1,
+    "lodging_club": "Hasle/L\u00f8ren",
+    "raw_label": "J2013",
+    "division_key": "J2013",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B207",
+    "schedule_team_name": "Hasle-L\u00f8ren Bl\u00e5"
+  },
+  {
+    "alias_id": 23,
+    "squad_index": 1,
+    "lodging_club": "Hasle/L\u00f8ren",
+    "raw_label": "J2014",
+    "division_key": "J2014",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B201",
+    "schedule_team_name": "Hasle-L\u00f8ren Bl\u00e5"
+  },
+  {
+    "alias_id": 24,
+    "squad_index": 1,
+    "lodging_club": "Heradsbygda HK",
+    "raw_label": "G2012",
+    "division_key": "G2012",
+    "school_name": "ELVIS",
+    "room_codes": "C220",
+    "schedule_team_name": "Heradsbygda"
+  },
+  {
+    "alias_id": 25,
+    "squad_index": 1,
+    "lodging_club": "Heradsbygda HK",
+    "raw_label": "J2012,3 lag",
+    "division_key": "J2012",
+    "school_name": "ELVIS",
+    "room_codes": "C226,C227",
+    "schedule_team_name": "Heradsbygda"
+  },
+  {
+    "alias_id": 26,
+    "squad_index": 2,
+    "lodging_club": "Heradsbygda HK",
+    "raw_label": "J2012,3 lag",
+    "division_key": "J2012",
+    "school_name": "ELVIS",
+    "room_codes": "C226,C227",
+    "schedule_team_name": "Heradsbygda 2"
+  },
+  {
+    "alias_id": 27,
+    "squad_index": 3,
+    "lodging_club": "Heradsbygda HK",
+    "raw_label": "J2012,3 lag",
+    "division_key": "J2012",
+    "school_name": "ELVIS",
+    "room_codes": "C226,C227",
+    "schedule_team_name": "Heradsbygda 3"
+  },
+  {
+    "alias_id": 28,
+    "squad_index": 1,
+    "lodging_club": "Jardar IL",
+    "raw_label": "J2008",
+    "division_key": "J2008",
+    "school_name": "YDALIR",
+    "room_codes": "1.065",
+    "schedule_team_name": "Jardar/Asker"
+  },
+  {
+    "alias_id": 29,
+    "squad_index": 1,
+    "lodging_club": "Jotun",
+    "raw_label": "G2012 + G2013",
+    "division_key": "G2012",
+    "school_name": "ELVIS",
+    "room_codes": "B136",
+    "schedule_team_name": "Jotun"
+  },
+  {
+    "alias_id": 30,
+    "squad_index": 1,
+    "lodging_club": "Jotun",
+    "raw_label": "J2012 ,2 lag",
+    "division_key": "J2012",
+    "school_name": "ELVIS",
+    "room_codes": "B137",
+    "schedule_team_name": "Jotun"
+  },
+  {
+    "alias_id": 31,
+    "squad_index": 2,
+    "lodging_club": "Jotun",
+    "raw_label": "J2012 ,2 lag",
+    "division_key": "J2012",
+    "school_name": "ELVIS",
+    "room_codes": "B137",
+    "schedule_team_name": "Jotun 2"
+  },
+  {
+    "alias_id": 32,
+    "squad_index": 1,
+    "lodging_club": "Kolbu IL",
+    "raw_label": "G2012",
+    "division_key": "G2012",
+    "school_name": "YDALIR",
+    "room_codes": "2.039",
+    "schedule_team_name": "Kolbu KK"
+  },
+  {
+    "alias_id": 33,
+    "squad_index": 1,
+    "lodging_club": "Koppang",
+    "raw_label": "J2012",
+    "division_key": "J2012",
+    "school_name": "YDALIR",
+    "room_codes": "1.080",
+    "schedule_team_name": "Koppang"
+  },
+  {
+    "alias_id": 34,
+    "squad_index": 1,
+    "lodging_club": "Koppang",
+    "raw_label": "J2012",
+    "division_key": "J2012",
+    "school_name": "YDALIR",
+    "room_codes": "1.084",
+    "schedule_team_name": "Koppang"
+  },
+  {
+    "alias_id": 35,
+    "squad_index": 1,
+    "lodging_club": "Lensbygda",
+    "raw_label": "G2015",
+    "division_key": "G2015",
+    "school_name": "YDALIR",
+    "room_codes": "2.073",
+    "schedule_team_name": "Lensbygda"
+  },
+  {
+    "alias_id": 36,
+    "squad_index": 1,
+    "lodging_club": "Lensbygda",
+    "raw_label": "J2012",
+    "division_key": "J2012",
+    "school_name": "YDALIR",
+    "room_codes": "2.062",
+    "schedule_team_name": "Lensbygda"
+  },
+  {
+    "alias_id": 37,
+    "squad_index": 1,
+    "lodging_club": "Lensbygda",
+    "raw_label": "J2015",
+    "division_key": "J2015",
+    "school_name": "YDALIR",
+    "room_codes": "2.043",
+    "schedule_team_name": "Lensbygda"
+  },
+  {
+    "alias_id": 38,
+    "squad_index": 1,
+    "lodging_club": "Lervik",
+    "raw_label": "J2008",
+    "division_key": "J2008",
+    "school_name": "YDALIR",
+    "room_codes": "1.085",
+    "schedule_team_name": "Lervik"
+  },
+  {
+    "alias_id": 39,
+    "squad_index": 1,
+    "lodging_club": "Lisleby",
+    "raw_label": "J2014,2 lag",
+    "division_key": "J2014",
+    "school_name": "FRYDENLUND",
+    "room_codes": "D128",
+    "schedule_team_name": "Lisleby Bl\u00e5"
+  },
+  {
+    "alias_id": 40,
+    "squad_index": 2,
+    "lodging_club": "Lisleby",
+    "raw_label": "J2014,2 lag",
+    "division_key": "J2014",
+    "school_name": "FRYDENLUND",
+    "room_codes": "D128",
+    "schedule_team_name": "Lisleby Gul"
+  },
+  {
+    "alias_id": 41,
+    "squad_index": 1,
+    "lodging_club": "Ottestad",
+    "raw_label": "G2012,2 lag",
+    "division_key": "G2012",
+    "school_name": "YDALIR",
+    "room_codes": "2.060",
+    "schedule_team_name": "Ottestad"
+  },
+  {
+    "alias_id": 42,
+    "squad_index": 2,
+    "lodging_club": "Ottestad",
+    "raw_label": "G2012,2 lag",
+    "division_key": "G2012",
+    "school_name": "YDALIR",
+    "room_codes": "2.060",
+    "schedule_team_name": "Ottestad 2"
+  },
+  {
+    "alias_id": 43,
+    "squad_index": 1,
+    "lodging_club": "Ring IL",
+    "raw_label": "G2013",
+    "division_key": "G2013",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B306",
+    "schedule_team_name": "Ring IL"
+  },
+  {
+    "alias_id": 44,
+    "squad_index": 1,
+    "lodging_club": "Ring IL",
+    "raw_label": "G2015",
+    "division_key": "G2015",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B303",
+    "schedule_team_name": "Ring IL"
+  },
+  {
+    "alias_id": 45,
+    "squad_index": 1,
+    "lodging_club": "Ring IL",
+    "raw_label": "J2010",
+    "division_key": "J2010",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B305",
+    "schedule_team_name": "Ring IL"
+  },
+  {
+    "alias_id": 46,
+    "squad_index": 1,
+    "lodging_club": "Ring IL",
+    "raw_label": "J2012+J2011",
+    "division_key": "J2012",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B304",
+    "schedule_team_name": "Ring IL"
+  },
+  {
+    "alias_id": 47,
+    "squad_index": 1,
+    "lodging_club": "R\u00f8ros",
+    "raw_label": "G2014,2 lag",
+    "division_key": "G2014",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A002",
+    "schedule_team_name": "R\u00f8ros"
+  },
+  {
+    "alias_id": 48,
+    "squad_index": 2,
+    "lodging_club": "R\u00f8ros",
+    "raw_label": "G2014,2 lag",
+    "division_key": "G2014",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A002",
+    "schedule_team_name": "R\u00f8ros 2"
+  },
+  {
+    "alias_id": 49,
+    "squad_index": 1,
+    "lodging_club": "R\u00f8ros",
+    "raw_label": "G2015",
+    "division_key": "G2015",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A104",
+    "schedule_team_name": "R\u00f8ros"
+  },
+  {
+    "alias_id": 50,
+    "squad_index": 1,
+    "lodging_club": "R\u00f8ros",
+    "raw_label": "J2011",
+    "division_key": "J2011",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A004",
+    "schedule_team_name": "R\u00f8ros"
+  },
+  {
+    "alias_id": 51,
+    "squad_index": 1,
+    "lodging_club": "R\u00f8ros",
+    "raw_label": "J2013",
+    "division_key": "J2013",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A101",
+    "schedule_team_name": "R\u00f8ros"
+  },
+  {
+    "alias_id": 52,
+    "squad_index": 1,
+    "lodging_club": "R\u00f8ros",
+    "raw_label": "J2015",
+    "division_key": "J2015",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A103",
+    "schedule_team_name": "R\u00f8ros"
+  },
+  {
+    "alias_id": 53,
+    "squad_index": 1,
+    "lodging_club": "Skarnes",
+    "raw_label": "G2015",
+    "division_key": "G2015",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B307",
+    "schedule_team_name": "Skarnes"
+  },
+  {
+    "alias_id": 54,
+    "squad_index": 1,
+    "lodging_club": "Skarnes",
+    "raw_label": "J2015,2 lag",
+    "division_key": "J2015",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B309",
+    "schedule_team_name": "Skarnes"
+  },
+  {
+    "alias_id": 55,
+    "squad_index": 2,
+    "lodging_club": "Skarnes",
+    "raw_label": "J2015,2 lag",
+    "division_key": "J2015",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B309",
+    "schedule_team_name": "Skarnes 2"
+  },
+  {
+    "alias_id": 56,
+    "squad_index": 1,
+    "lodging_club": "Skjetten",
+    "raw_label": "J2008",
+    "division_key": "J2008",
+    "school_name": "YDALIR",
+    "room_codes": "1.072",
+    "schedule_team_name": "Skjetten"
+  },
+  {
+    "alias_id": 57,
+    "squad_index": 1,
+    "lodging_club": "Storhamar",
+    "raw_label": "J2012,2 lag",
+    "division_key": "J2012",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B301",
+    "schedule_team_name": "Storhamar"
+  },
+  {
+    "alias_id": 58,
+    "squad_index": 2,
+    "lodging_club": "Storhamar",
+    "raw_label": "J2012,2 lag",
+    "division_key": "J2012",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "B301",
+    "schedule_team_name": "Storhamar 2"
+  },
+  {
+    "alias_id": 59,
+    "squad_index": 1,
+    "lodging_club": "Sverresborg",
+    "raw_label": "G2012,2 lag",
+    "division_key": "G2012",
+    "school_name": "ELVIS",
+    "room_codes": "C126",
+    "schedule_team_name": "Sverresborg"
+  },
+  {
+    "alias_id": 60,
+    "squad_index": 2,
+    "lodging_club": "Sverresborg",
+    "raw_label": "G2012,2 lag",
+    "division_key": "G2012",
+    "school_name": "ELVIS",
+    "room_codes": "C126",
+    "schedule_team_name": "Sverresborg 2"
+  },
+  {
+    "alias_id": 61,
+    "squad_index": 1,
+    "lodging_club": "Sverresborg",
+    "raw_label": "G2014",
+    "division_key": "G2014",
+    "school_name": "ELVIS",
+    "room_codes": "C119",
+    "schedule_team_name": "Sverresborg"
+  },
+  {
+    "alias_id": 62,
+    "squad_index": 1,
+    "lodging_club": "Sverresborg",
+    "raw_label": "J2011",
+    "division_key": "J2011",
+    "school_name": "ELVIS",
+    "room_codes": "C120",
+    "schedule_team_name": "Sverresborg"
+  },
+  {
+    "alias_id": 63,
+    "squad_index": 1,
+    "lodging_club": "Sverresborg",
+    "raw_label": "J2012",
+    "division_key": "J2012",
+    "school_name": "ELVIS",
+    "room_codes": "B138",
+    "schedule_team_name": "Sverresborg"
+  },
+  {
+    "alias_id": 64,
+    "squad_index": 1,
+    "lodging_club": "Sverresborg",
+    "raw_label": "J2013,2 lag",
+    "division_key": "J2013",
+    "school_name": "ELVIS",
+    "room_codes": "C127",
+    "schedule_team_name": "Sverresborg"
+  },
+  {
+    "alias_id": 65,
+    "squad_index": 2,
+    "lodging_club": "Sverresborg",
+    "raw_label": "J2013,2 lag",
+    "division_key": "J2013",
+    "school_name": "ELVIS",
+    "room_codes": "C127",
+    "schedule_team_name": "Sverresborg 2"
+  },
+  {
+    "alias_id": 66,
+    "squad_index": 1,
+    "lodging_club": "Sverresborg",
+    "raw_label": "J2014,2 lag",
+    "division_key": "J2014",
+    "school_name": "ELVIS",
+    "room_codes": "C111,C210",
+    "schedule_team_name": "Sverresborg"
+  },
+  {
+    "alias_id": 67,
+    "squad_index": 2,
+    "lodging_club": "Sverresborg",
+    "raw_label": "J2014,2 lag",
+    "division_key": "J2014",
+    "school_name": "ELVIS",
+    "room_codes": "C111,C210",
+    "schedule_team_name": "Sverresborg 2"
+  },
+  {
+    "alias_id": 68,
+    "squad_index": 1,
+    "lodging_club": "Trysil",
+    "raw_label": "G2014",
+    "division_key": "G2014",
+    "school_name": "YDALIR",
+    "room_codes": "2.051",
+    "schedule_team_name": "Trysil"
+  },
+  {
+    "alias_id": 69,
+    "squad_index": 1,
+    "lodging_club": "Trysil",
+    "raw_label": "J2011",
+    "division_key": "J2011",
+    "school_name": "YDALIR",
+    "room_codes": "2.049",
+    "schedule_team_name": "Trysil"
+  },
+  {
+    "alias_id": 70,
+    "squad_index": 1,
+    "lodging_club": "Trysil",
+    "raw_label": "J2014",
+    "division_key": "J2014",
+    "school_name": "YDALIR",
+    "room_codes": "2.076",
+    "schedule_team_name": "Trysil IL"
+  },
+  {
+    "alias_id": 71,
+    "squad_index": 1,
+    "lodging_club": "Tune IL",
+    "raw_label": "J2013,2 lag",
+    "division_key": "J2013",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A012",
+    "schedule_team_name": "Tune Gr\u00f8nn"
+  },
+  {
+    "alias_id": 72,
+    "squad_index": 2,
+    "lodging_club": "Tune IL",
+    "raw_label": "J2013,2 lag",
+    "division_key": "J2013",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A012",
+    "schedule_team_name": "Tune R\u00f8d"
+  },
+  {
+    "alias_id": 73,
+    "squad_index": 1,
+    "lodging_club": "Tydal",
+    "raw_label": "J2013,2 lag",
+    "division_key": "J2013",
+    "school_name": "FRYDENLUND",
+    "room_codes": "D124",
+    "schedule_team_name": "Tydal"
+  },
+  {
+    "alias_id": 74,
+    "squad_index": 2,
+    "lodging_club": "Tydal",
+    "raw_label": "J2013,2 lag",
+    "division_key": "J2013",
+    "school_name": "FRYDENLUND",
+    "room_codes": "D124",
+    "schedule_team_name": "Tydal 2"
+  },
+  {
+    "alias_id": 75,
+    "squad_index": 1,
+    "lodging_club": "Utleira",
+    "raw_label": "J2010",
+    "division_key": "J2010",
+    "school_name": "ELVIS",
+    "room_codes": "E163",
+    "schedule_team_name": "Utleira"
+  },
+  {
+    "alias_id": 76,
+    "squad_index": 1,
+    "lodging_club": "Utleira",
+    "raw_label": "J2011,2 lag",
+    "division_key": "J2011",
+    "school_name": "ELVIS",
+    "room_codes": "E162",
+    "schedule_team_name": "Utleira"
+  },
+  {
+    "alias_id": 77,
+    "squad_index": 2,
+    "lodging_club": "Utleira",
+    "raw_label": "J2011,2 lag",
+    "division_key": "J2011",
+    "school_name": "ELVIS",
+    "room_codes": "E162",
+    "schedule_team_name": "Utleira 2"
+  },
+  {
+    "alias_id": 78,
+    "squad_index": 1,
+    "lodging_club": "Varde IL",
+    "raw_label": "J2012,2 lag",
+    "division_key": "J2012",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A011,grupperom i A",
+    "schedule_team_name": "Varde"
+  },
+  {
+    "alias_id": 79,
+    "squad_index": 2,
+    "lodging_club": "Varde IL",
+    "raw_label": "J2012,2 lag",
+    "division_key": "J2012",
+    "school_name": "ELVERUM UNGDOMSSKOLE",
+    "room_codes": "A011,grupperom i A",
+    "schedule_team_name": "Varde 2"
+  },
+  {
+    "alias_id": 80,
+    "squad_index": 1,
+    "lodging_club": "\u00c5rdalstangen",
+    "raw_label": "J2011",
+    "division_key": "J2011",
+    "school_name": "ELVIS",
+    "room_codes": "B120",
+    "schedule_team_name": "\u00c5rdalstangen"
+  }
+]
