@@ -247,6 +247,7 @@ def find_multi_leg_trip(
     note: str,
     ref_type: str,
     ref_id: Optional[int],
+    target_arrival_min: Optional[int] = None,
 ) -> Tuple[Optional[List[Dict[str, Optional[object]]]], Optional[int]]:
     transfer_candidates = set(candidate_transfer_stops(conn, service_day, destination_stop_id))
     if not transfer_candidates:
@@ -320,6 +321,7 @@ def find_multi_leg_trip(
                 ref_type,
                 ref_id,
                 latest_arrival_min=latest_arrival_min,
+                target_arrival_min=target_arrival_min,
                 allow_force=False,
             )
             if second_segment is None or second_arrival_min is None:
@@ -587,9 +589,10 @@ def select_trip_with_capacity(
             break
         if tracker.assign(service_day, trip["route_id"], trip["trip_index"], headcount):
             buffer_minutes = None
-            buffer_target = target_arrival_min if target_arrival_min is not None else latest_arrival_min
-            if buffer_target is not None:
-                buffer_minutes = buffer_target - arrival_min
+            if target_arrival_min is not None:
+                buffer_minutes = target_arrival_min - arrival_min
+            elif latest_arrival_min is not None:
+                buffer_minutes = latest_arrival_min - arrival_min
             segment = build_bus_segment_from_trip(
                 trip,
                 service_day,
@@ -605,9 +608,10 @@ def select_trip_with_capacity(
     if fallback and allow_force:
         tracker.assign(service_day, fallback["route_id"], fallback["trip_index"], headcount, force=True)
         buffer_minutes = None
-        buffer_target = target_arrival_min if target_arrival_min is not None else latest_arrival_min
-        if buffer_target is not None and fallback_arrival is not None:
-            buffer_minutes = buffer_target - fallback_arrival
+        if target_arrival_min is not None and fallback_arrival is not None:
+            buffer_minutes = target_arrival_min - fallback_arrival
+        elif latest_arrival_min is not None and fallback_arrival is not None:
+            buffer_minutes = latest_arrival_min - fallback_arrival
         segment = build_bus_segment_from_trip(
             fallback,
             service_day,
@@ -647,6 +651,10 @@ def plan_game_travel(
     attempt_origin = current_stop_id
     attempt_time = current_time_min if current_time_min is not None else start_min - (3 * 60)
     attempted_school_reset = False
+    if attempt_time is not None and attempt_time > latest_arrival:
+        if school_stop_id is not None:
+            attempt_origin = school_stop_id
+        attempt_time = max(start_min - 60, 0)
 
     while True:
         segment, arrival_min, _ = (select_bus_via_candidates(conn, tracker, alias, game, attempt_origin, note, allow_force=False)
@@ -665,11 +673,18 @@ def plan_game_travel(
                 "schedule_game",
                 game["game_id"],
                 latest_arrival_min=latest_arrival,
+                target_arrival_min=start_min,
                 allow_force=False,
             )
         if segment is not None and arrival_min is not None:
-            segments.append(segment)
-            return segments, hall_stop_id, arrival_min
+            buffer_to_game = start_min - arrival_min
+            if buffer_to_game < 40:
+                release_bus_segments(tracker, alias=None, segments=[segment], headcount=headcount)
+                break
+            else:
+                segment["buffer_minutes"] = buffer_to_game
+                segments.append(segment)
+                return segments, hall_stop_id, arrival_min
         if attempted_school_reset or attempt_origin == school_stop_id:
             break
         transfer_segment, transfer_arrival, _ = select_trip_with_capacity(
@@ -688,51 +703,11 @@ def plan_game_travel(
         )
         if transfer_segment is None or transfer_arrival is None:
             break
+        transfer_segment["buffer_minutes"] = None
         segments.append(transfer_segment)
         attempt_origin = school_stop_id
         attempt_time = transfer_arrival
         attempted_school_reset = True
-
-    # Relax buffer to 20 minutter hvis standard ikke lykkes.
-    for relaxed_buffer in (20, 10):
-        relaxed_latest = start_min - relaxed_buffer
-        if relaxed_latest <= attempt_time:
-            continue
-        fallback_segment, fallback_arrival, _ = select_trip_with_capacity(
-            conn,
-            tracker,
-            service_day,
-            attempt_origin,
-            hall_stop_id,
-            attempt_time,
-            headcount,
-            f"{note} (buffer relaxed to {relaxed_buffer}m)",
-            "schedule_game",
-            game["game_id"],
-            latest_arrival_min=relaxed_latest,
-            allow_force=False,
-        )
-        if fallback_segment is not None and fallback_arrival is not None:
-            segments.append(fallback_segment)
-            return segments, hall_stop_id, fallback_arrival
-
-    # Absolut fallback: vælg den tidligst mulige tur uanset buffer og markér noten.
-    fallback_segment, fallback_arrival, _ = select_trip_with_capacity(
-        conn,
-        tracker,
-        service_day,
-        attempt_origin,
-        hall_stop_id,
-        attempt_time,
-        headcount,
-        f"{note} (manual buffer review)",
-        "schedule_game",
-        game["game_id"],
-        allow_force=False,
-    )
-    if fallback_segment is not None and fallback_arrival is not None:
-        segments.append(fallback_segment)
-        return segments, hall_stop_id, fallback_arrival
 
     multi_segments, multi_arrival = find_multi_leg_trip(
         conn,
@@ -746,10 +721,18 @@ def plan_game_travel(
         note,
         "schedule_game",
         game["game_id"],
+        target_arrival_min=start_min,
     )
     if multi_segments is not None and multi_arrival is not None:
-        segments.extend(multi_segments)
-        return segments, hall_stop_id, multi_arrival
+        buffer_to_game = start_min - multi_arrival
+        if buffer_to_game < 40:
+            release_bus_segments(tracker, alias=None, segments=multi_segments, headcount=headcount)
+        else:
+            for seg in multi_segments:
+                if seg.get("segment_type") == "bus":
+                    seg["buffer_minutes"] = buffer_to_game
+            segments.extend(multi_segments)
+            return segments, hall_stop_id, multi_arrival
 
     # Som absolut sidste udvej markeres behovet for manuel transport.
     release_bus_segments(tracker, alias, segments, headcount=headcount)
@@ -768,6 +751,7 @@ def plan_game_travel(
         "schedule_game",
         game["game_id"],
     )
+    charter_segment["buffer_minutes"] = start_min - manual_arrival
     return [charter_segment], hall_stop_id, manual_arrival
 
 
@@ -815,6 +799,8 @@ def schedule_lunch_between_games(
     if bus_to_lunch is None or arrival_lunch is None:
         return [], current_stop_id, current_time_min, None
 
+    bus_to_lunch["buffer_minutes"] = None
+
     meal_start = max(arrival_lunch, LUNCH_WINDOW_MIN)
     meal_end = min(meal_start + LUNCH_DURATION, max_arrival)
     if meal_end - meal_start < 15:
@@ -836,11 +822,19 @@ def schedule_lunch_between_games(
         "schedule_game",
         next_game["game_id"],
         latest_arrival_min=time_to_minutes(next_game["start_time"]) - 40,
+        target_arrival_min=time_to_minutes(next_game["start_time"]),
         allow_force=False,
     )
     if bus_to_next is None or arrival_next is None:
         tracker.release("sat", bus_to_lunch["route_id"], bus_to_lunch["trip_index"], headcount)
         return [], current_stop_id, current_time_min, None
+
+    buffer_to_next_game = time_to_minutes(next_game["start_time"]) - arrival_next
+    if buffer_to_next_game < 40:
+        tracker.release("sat", bus_to_lunch["route_id"], bus_to_lunch["trip_index"], headcount)
+        tracker.release(bus_to_next.get("service_day"), bus_to_next["route_id"], bus_to_next["trip_index"], headcount)
+        return [], current_stop_id, current_time_min, None
+    bus_to_next["buffer_minutes"] = buffer_to_next_game
 
     return (
         [bus_to_lunch, meal_segment, bus_to_next],
@@ -883,6 +877,8 @@ def schedule_lunch_after_day(
     )
     if bus_to_lunch is None or arrival is None:
         return [], current_stop_id, current_time_min
+
+    bus_to_lunch["buffer_minutes"] = None
 
     meal_start = max(arrival, LUNCH_WINDOW_MIN)
     meal_end = min(meal_start + LUNCH_DURATION, LUNCH_WINDOW_MAX)
@@ -976,6 +972,7 @@ def schedule_concert_block(
             current_stop_id = concert["anchor_stop_id"]
             current_time_min = concert_start_min - CONCERT_BUFFER_MIN
         else:
+            bus_to_concert["buffer_minutes"] = None
             segments.append(bus_to_concert)
             current_stop_id = concert["anchor_stop_id"]
             current_time_min = arrival if arrival is not None else current_time_min
@@ -1000,6 +997,7 @@ def schedule_concert_block(
         allow_force=False,
     )
     if return_trip is not None:
+        return_trip["buffer_minutes"] = None
         segments.append(return_trip)
         current_stop_id = school_stop
         current_time_min = return_arrival
@@ -1035,6 +1033,7 @@ def schedule_return_to_lodging(
     )
     if bus_segment is None:
         return [], current_stop_id, current_time_min
+    bus_segment["buffer_minutes"] = None
     return [bus_segment], school_stop, arrival
 
 

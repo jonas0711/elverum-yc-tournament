@@ -101,6 +101,21 @@ def test_bus_capacity_alerts_threshold():
             assert alerts <= summary_max
 
 
+def test_game_bus_segments_buffer():
+    with get_connection() as conn:
+        violations = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM team_itinerary_segments
+            WHERE segment_type = 'bus'
+              AND ref_type = 'schedule_game'
+              AND buffer_minutes IS NOT NULL
+              AND buffer_minutes < 40
+            """
+        ).fetchone()[0]
+        assert violations == 0, "Game-bound bus segments must preserve >= 40 minute buffer"
+
+
 def test_concert_segments_exist():
     with get_connection() as conn:
         count = conn.execute(
