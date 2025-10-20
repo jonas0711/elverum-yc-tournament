@@ -1,0 +1,42 @@
+Elverum Yngres Cup – Holdplan
+Hold: Furnes (Furnes – G2014,2 lag)
+Overnatning: FRYDENLUND  Rum: C125  Deltagere: 19
+
+Tidslinje:
+  Lørdag (2025-04-26)
+    07:45–07:55 | BUS    | Frydenlund → Herneshallen Rute 3# Bus to Herneshallen - Kortbane (30431001005)
+    09:16–09:36 | GAME   | Herneshallen → Herneshallen Elverum Yngres Cup - Gutter 10 år - 01 vs Sverresborg (home)
+    09:40–09:50 | BUS    | Herneshallen → Ydalir Rute 2# Bus to Elverumshallen - Kortbane (30440903001) (leg 1)
+    10:20–10:30 | BUS    | Ydalir → Elverum ungdomsskole (EUS) Rute 1# Bus to Elverumshallen - Kortbane (30440903001) (via transfer)
+    11:10–11:30 | GAME   | Elverum ungdomsskole (EUS) → Elverum ungdomsskole (EUS) Elverum Yngres Cup - Jenter 9 år - 03 vs Vaaler (home)
+    12:07–12:27 | GAME   | Elverum ungdomsskole (EUS) → Elverum ungdomsskole (EUS) Elverum Yngres Cup - Gutter 10 år - 01 vs Elverum (home)
+    13:00–13:25 | BUS    | Elverum ungdomsskole (EUS) → Thon Central (lørdag) Rute 1# Bus to lunch (Thon Central (lørdag))
+    13:25–14:10 | MEAL   | Thon Central (lørdag) → Thon Central (lørdag) Lunch at Thon Central (lørdag)
+    14:15–14:20 | BUS    | Thon Central (lørdag) → Herneshallen Rute 1# Bus to Herneshallen - Kortbane (post-lunch)
+    15:55–16:15 | GAME   | Herneshallen → Herneshallen Elverum Yngres Cup - Jenter 9 år - 03 vs Skarnes (away)
+    17:55–18:10 | BUS    | Herneshallen → Terningen Arena Rute 3# Bus to concert (Terningen Arena)
+    19:30–21:00 | CONCERT | Terningen Arena → Terningen Arena Concert at Terningen Arena
+  Søndag (2025-04-27)
+    07:19–07:39 | BUS    | Frydenlund → Søndre Elverum Charter transport to Søndre Elverum Idrettshall - Kortbane (alias 5)
+    08:19–08:39 | GAME   | Søndre Elverum → Søndre Elverum Elverum Yngres Cup - Jenter 9 år - 03 vs Røros 3 (home)
+    09:32–09:52 | BUS    | Søndre Elverum → Ydalir Charter transport to Ydalir skole idrettshall - Kortbane (alias 5)
+    10:32–10:52 | GAME   | Ydalir → Ydalir Elverum Yngres Cup - Gutter 10 år - 01 vs Hasle-Løren Rød (home)
+    11:00–11:10 | BUS    | Ydalir → Herneshallen Rute 2# Bus to Herneshallen - Kortbane (30440903011) (buffer relaxed to 20m)
+    11:48–12:08 | GAME   | Herneshallen → Herneshallen Elverum Yngres Cup - Jenter 9 år - 03 vs Rena IL (away)
+    12:42–13:02 | BUS    | Herneshallen → Søndre Elverum Charter transport to Søndre Elverum Idrettshall - Kortbane (alias 5)
+    13:42–14:02 | GAME   | Søndre Elverum → Søndre Elverum Elverum Yngres Cup - Gutter 10 år - 01 vs Elverum 2 (home)
+
+Charter / manuelle transporter:
+  Søndag 07:19 | Frydenlund → Søndre Elverum | Charter transport to Søndre Elverum Idrettshall - Kortbane (alias 5)
+  Søndag 09:32 | Søndre Elverum → Ydalir | Charter transport to Ydalir skole idrettshall - Kortbane (alias 5)
+  Søndag 12:42 | Herneshallen → Søndre Elverum | Charter transport to Søndre Elverum Idrettshall - Kortbane (alias 5)
+
+Kampe:
+  2025-04-26 09:16 | Herneshallen - Kortbane | Elverum Yngres Cup - Gutter 10 år - 01 vs Sverresborg (home)
+  2025-04-26 11:10 | Elverumshallen - Kortbane | Elverum Yngres Cup - Jenter 9 år - 03 vs Vaaler (home)
+  2025-04-26 12:07 | Elverumshallen - Kortbane | Elverum Yngres Cup - Gutter 10 år - 01 vs Elverum (home)
+  2025-04-26 15:55 | Herneshallen - Kortbane | Elverum Yngres Cup - Jenter 9 år - 03 vs Skarnes (away)
+  2025-04-27 08:19 | Søndre Elverum Idrettshall - Kortbane | Elverum Yngres Cup - Jenter 9 år - 03 vs Røros 3 (home)
+  2025-04-27 10:32 | Ydalir skole idrettshall - Kortbane | Elverum Yngres Cup - Gutter 10 år - 01 vs Hasle-Løren Rød (home)
+  2025-04-27 11:48 | Herneshallen - Kortbane | Elverum Yngres Cup - Jenter 9 år - 03 vs Rena IL (away)
+  2025-04-27 13:42 | Søndre Elverum Idrettshall - Kortbane | Elverum Yngres Cup - Gutter 10 år - 01 vs Elverum 2 (home)

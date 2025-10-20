@@ -1,0 +1,24 @@
+Elverum Yngres Cup – Holdplan
+Hold: AFSK (Aurskog Finstadbru – J2008)
+Overnatning: ELVERUM UNGDOMSSKOLE  Rum: B102  Deltagere: 17
+
+Tidslinje:
+  Lørdag (2025-04-26)
+    08:00–07:50 | BUS    | Elverum ungdomsskole (EUS) → Søndre Elverum Rute 1# Bus to Søndre Elverum Idrettshall (30441601005)
+    10:41–11:06 | GAME   | Søndre Elverum → Søndre Elverum Elverum Yngres Cup - Jenter 16 år - 01 vs Skjetten (home)
+    12:50–13:05 | BUS    | Søndre Elverum → Thon Central (lørdag) Rute 1# Bus to lunch (Thon Central (lørdag))
+    13:05–13:50 | MEAL   | Thon Central (lørdag) → Thon Central (lørdag) Lunch at Thon Central (lørdag)
+    14:15–13:50 | BUS    | Thon Central (lørdag) → Elverum videregående skole (ELVIS) Rute 1# Bus to Elvishallen (post-lunch)
+    15:05–15:30 | GAME   | Elverum videregående skole (ELVIS) → Elverum videregående skole (ELVIS) Elverum Yngres Cup - Jenter 16 år - 01 vs Lervik (away)
+    17:40–18:10 | BUS    | Elverum videregående skole (ELVIS) → Terningen Arena Rute 3# Bus to concert (Terningen Arena)
+    19:30–21:00 | CONCERT | Terningen Arena → Terningen Arena Concert at Terningen Arena
+  Søndag (2025-04-27)
+    07:00–07:25 | BUS    | Elverum ungdomsskole (EUS) → Terningen Arena Rute 2# Bus to Terningen Arena (30441602001)
+    08:23–08:48 | GAME   | Elverum ungdomsskole (EUS) → Elverum ungdomsskole (EUS) Elverum Yngres Cup - Jenter 16 år - 01 vs Jardar/Asker (home)
+    14:03–14:28 | GAME   | Terningen Arena → Terningen Arena Elverum Yngres Cup J16 sluttspill vs Skjetten (away)
+
+Kampe:
+  2025-04-26 10:41 | Søndre Elverum Idrettshall | Elverum Yngres Cup - Jenter 16 år - 01 vs Skjetten (home)
+  2025-04-26 15:05 | Elvishallen | Elverum Yngres Cup - Jenter 16 år - 01 vs Lervik (away)
+  2025-04-27 08:23 | Elverumshallen | Elverum Yngres Cup - Jenter 16 år - 01 vs Jardar/Asker (home)
+  2025-04-27 14:03 | Terningen Arena | Elverum Yngres Cup J16 sluttspill vs Skjetten (away)
