@@ -116,6 +116,24 @@ def test_game_bus_segments_buffer():
         assert violations == 0, "Game-bound bus segments must preserve >= 40 minute buffer"
 
 
+def test_bus_segments_travel_time_consistent():
+    with get_connection() as conn:
+        violations = conn.execute(
+            """
+            SELECT COUNT(*)
+            FROM team_itinerary_segments
+            WHERE segment_type = 'bus'
+              AND route_id IS NOT NULL
+              AND (
+                  travel_minutes IS NULL
+                  OR travel_minutes <= 0
+                  OR start_time >= end_time
+              )
+            """
+        ).fetchone()[0]
+        assert violations == 0, "Bus segments must have departure before arrival and positive travel time"
+
+
 def test_concert_segments_exist():
     with get_connection() as conn:
         count = conn.execute(
