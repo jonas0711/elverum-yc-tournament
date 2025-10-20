@@ -121,6 +121,8 @@ def render_pdf(header: Dict, itinerary: List[Dict], manual: List[Dict], games: L
     pdf.ln(8)
     pdf.set_font("DejaVu", "", 11)
 
+    passenger_count = header.get("headcount")
+
     for item in itinerary:
         service_day = item["service_day"]
         if service_day != current_service_day:
@@ -146,7 +148,10 @@ def render_pdf(header: Dict, itinerary: List[Dict], manual: List[Dict], games: L
             origin_short = origin[:25] + "..." if len(origin) > 25 else origin
             dest_short = destination[:25] + "..." if len(destination) > 25 else destination
             pdf.set_font("DejaVu", "B", 10)
-            pdf.cell(0, 5, f"{start}-{end}: BUS{route}")
+            passengers_text = (
+                f" (Passagerer: {passenger_count})" if passenger_count else ""
+            )
+            pdf.cell(0, 5, f"{start}-{end}: BUS{route}{passengers_text}")
             pdf.ln(5)
             pdf.set_font("DejaVu", "", 9)
             pdf.cell(5, 4, "")
@@ -171,8 +176,16 @@ def render_pdf(header: Dict, itinerary: List[Dict], manual: List[Dict], games: L
             pdf.ln(5)
         else:
             pdf.set_font("DejaVu", "", 10)
-            pdf.cell(0, 5, f"{start}: {segment_type.upper()}")
+            note_suffix = ""
+            if passenger_count and (notes.lower().startswith("manual transport") or segment_type == "note"):
+                note_suffix = f" (Passagerer: {passenger_count})"
+            pdf.cell(0, 5, f"{start}: {segment_type.upper()}{note_suffix}")
             pdf.ln(5)
+            if notes:
+                pdf.set_font("DejaVu", "", 9)
+                notes_short = notes[:90] + "..." if len(notes) > 90 else notes
+                pdf.cell(5, 4, "")
+                pdf.multi_cell(0, 4, notes_short)
 
     if manual:
         pdf.ln(4)
@@ -186,7 +199,8 @@ def render_pdf(header: Dict, itinerary: List[Dict], manual: List[Dict], games: L
             note = entry["notes"] or ""
             origin = (entry["origin_stop_name"] or "-")[:20]
             dest = (entry["destination_stop_name"] or "-")[:20]
-            pdf.cell(0, 4, f"{label} {start}: {origin} -> {dest}")
+            passengers_text = f" - Passagerer: {passenger_count}" if passenger_count else ""
+            pdf.cell(0, 4, f"{label} {start}: {origin} -> {dest}{passengers_text}")
             pdf.ln(4)
 
     if games:
