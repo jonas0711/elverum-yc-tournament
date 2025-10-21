@@ -19,7 +19,10 @@
       "Bash(awk '{print \"\"\"\"  Total size: \"\"\"\" $1}' echo \"\" echo \"Sample PDFs:\" ls -lh output/itineraries/)",
       "Bash(awk '{print \"\"\"\"  \"\"\"\" $9 \"\"\"\" - \"\"\"\" $5}' echo \"\" echo \"Itinerary Stats:\" python3 -c \"\nimport sqlite3\nconn = sqlite3.connect(''''data/build/event_planner.db'''')\ncur = conn.execute(''''SELECT COUNT(*), segment_type FROM team_itinerary_segments GROUP BY segment_type'''')\nfor row in cur:\n    print(f''''  {row[1]:10} {row[0]:5}'''')\n\" echo \"\" echo \"✅ All fixes applied\" echo \"✅ 80 PDFs regenerated with chronological ordering\" echo \"✅ Documentation complete\" echo \"⚠️  Transport logic issues documented for future work\" echo \"\" echo \"See FINAL_STATUS.md for complete details\")",
       "Bash(for i in 2 4 28)",
-      "Bash(awk '{print \"\"\"\"  Size: \"\"\"\" $1}' echo \"\" echo \"Directories (should only be the main folder):\" find output/itineraries -type d echo \"\" echo \"Sample files:\" ls -lh output/itineraries/*.pdf)"
+      "Bash(awk '{print \"\"\"\"  Size: \"\"\"\" $1}' echo \"\" echo \"Directories (should only be the main folder):\" find output/itineraries -type d echo \"\" echo \"Sample files:\" ls -lh output/itineraries/*.pdf)",
+      "Bash(mkdir -p output/itineraries)",
+      "Bash(git checkout scripts/generate_itineraries.py)",
+      "Bash(git checkout scripts/build_bus_routes.py)"
     ],
     "deny": [],
     "ask": []

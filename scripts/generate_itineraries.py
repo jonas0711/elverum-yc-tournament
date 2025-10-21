@@ -191,6 +191,8 @@ def list_trips(
     earliest_depart_min: int,
 ) -> List[sqlite3.Row]:
     earliest_depart = minutes_to_time(max(0, earliest_depart_min))
+    # For circular routes, we can't rely on stop_order < stop_order
+    # Instead, we use time-based filtering: arrival must be AFTER departure
     return conn.execute(
         """
         SELECT
@@ -210,7 +212,7 @@ def list_trips(
         WHERE dep.service_day = ?
           AND dep.stop_id = ?
           AND arr.stop_id = ?
-          AND dep.stop_order < arr.stop_order
+          AND arr.departure_time > dep.departure_time
           AND dep.departure_time >= ?
         ORDER BY dep.departure_time
         """,
@@ -743,27 +745,98 @@ def plan_game_travel(
             segments.extend(multi_segments)
             return segments, hall_stop_id, multi_arrival
 
-    # Som absolut sidste udvej markeres behovet for manuel transport.
+    # NO MANUAL TRANSPORT ALLOWED - find ANY bus even if very early
+    # Search for earliest available bus that arrives >=40 min before game
     release_bus_segments(tracker, alias, segments, headcount=headcount)
-    manual_start = max(attempt_time, start_min - 60)
-    manual_arrival = start_min - 40
-    if manual_arrival <= manual_start:
-        manual_arrival = max(manual_start + 20, start_min - 30)
-    origin_for_charter = attempt_origin or school_stop_id
-    if origin_for_charter == hall_stop_id:
-        return segments, hall_stop_id, manual_arrival
-    manual_segment = build_manual_segment(
-        service_day,
-        manual_start,
-        manual_arrival,
-        f"Manual transport to {game['hall_name']} (alias {alias['alias_id']})",
-    )
-    manual_segment["origin_stop_id"] = origin_for_charter
-    manual_segment["destination_stop_id"] = hall_stop_id
-    manual_segment["ref_type"] = "schedule_game"
-    manual_segment["ref_id"] = game["game_id"]
-    manual_segment["buffer_minutes"] = start_min - manual_arrival
-    return [manual_segment], hall_stop_id, manual_arrival
+
+    # Try from current location first, then school if that fails
+    origins_to_try = [attempt_origin]
+    if school_stop_id is not None and school_stop_id != attempt_origin:
+        origins_to_try.append(school_stop_id)
+
+    for try_origin in origins_to_try:
+        if try_origin is None:
+            continue
+
+        # Start searching from up to 4 hours before game
+        search_from = max(0, start_min - (4 * 60))
+
+        # Try direct trip with force=True (ignore capacity)
+        segment, arrival_min, _ = select_trip_with_capacity(
+            conn,
+            tracker,
+            service_day,
+            try_origin,
+            hall_stop_id,
+            search_from,
+            headcount,
+            note,
+            "schedule_game",
+            game["game_id"],
+            latest_arrival_min=start_min - 40,  # Must arrive at least 40 min before
+            allow_force=True,  # ALWAYS assign, ignore capacity
+        )
+        if segment is not None and arrival_min is not None:
+            buffer_to_game = start_min - arrival_min
+            segment["buffer_minutes"] = buffer_to_game
+            segments.append(segment)
+            return segments, hall_stop_id, arrival_min
+
+        # Try multi-leg trip
+        multi_segments, multi_arrival = find_multi_leg_trip(
+            conn,
+            tracker,
+            service_day,
+            try_origin,
+            hall_stop_id,
+            search_from,
+            start_min - 40,
+            headcount,
+            note,
+            "schedule_game",
+            game["game_id"],
+            target_arrival_min=start_min,
+        )
+        if multi_segments is not None and multi_arrival is not None:
+            buffer_to_game = start_min - multi_arrival
+            for seg in multi_segments:
+                if seg.get("segment_type") == "bus":
+                    seg["buffer_minutes"] = buffer_to_game
+            segments.extend(multi_segments)
+            return segments, hall_stop_id, multi_arrival
+
+    # No bus route exists - create a note segment instead of failing
+    origin_name = "unknown"
+    if attempt_origin:
+        origin_row = conn.execute("SELECT stop_name FROM transport_stops WHERE stop_id = ?", (attempt_origin,)).fetchone()
+        if origin_row:
+            origin_name = origin_row[0]
+
+    dest_name = "unknown"
+    if hall_stop_id:
+        dest_row = conn.execute("SELECT stop_name FROM transport_stops WHERE stop_id = ?", (hall_stop_id,)).fetchone()
+        if dest_row:
+            dest_name = dest_row[0]
+
+    # Create a note segment indicating no bus available
+    note_segment = {
+        "segment_type": "note",
+        "ref_type": "schedule_game",
+        "ref_id": game["game_id"],
+        "service_day": service_day,
+        "origin_stop_id": attempt_origin,
+        "destination_stop_id": hall_stop_id,
+        "route_id": None,
+        "trip_index": None,
+        "departure_time": None,
+        "arrival_time": None,
+        "buffer_minutes": None,
+        "notes": f"INGEN BUS TILGÆNGELIG: {origin_name} → {dest_name}. Kamp kl. {game['start_time']}.",
+    }
+    segments.append(note_segment)
+
+    # Return with current stop (no transport happened)
+    return segments, attempt_origin, None
 
 
 def plan_lunch_transport(
